@@ -1,5 +1,6 @@
 package kz.baribir.birkitap.model.entity;
 
+import kz.baribir.birkitap.model.dto.RequestDTO;
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
@@ -7,16 +8,15 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-public class BookCrossingResponse {
+public class Request   {
 
     @MongoId
     private String id;
-    private String userId;
-    private String toUserId;
-    private String crossingRequestId;
-    private String description;
+    private String creator;
     private List<String> attachments;
-    private String status;
+    private String message;
     private Date createtime;
-
+    private String announcement;
+    private String announcementCreator;
+    private String status;
 }

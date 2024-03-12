@@ -1,5 +1,6 @@
 package kz.baribir.birkitap.model.entity;
 
+import kz.baribir.birkitap.model.dto.AnnouncementDTO;
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
@@ -7,17 +8,19 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-public class BookCrossingRequest {
+public class Announcement  {
 
     @MongoId
     private String id;
-    private String userId;
     private String title;
-    private String city;
-    private String year;
-    private String description;
+    private String category;
+    private String location;
+    private int year;
     private List<String> images;
-    private String status;
+    private String description;
+    private String creator;
     private Date createtime;
     private Date updatetime;
+    private int deleted;
+
 }

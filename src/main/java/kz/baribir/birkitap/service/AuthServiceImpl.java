@@ -134,6 +134,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public Response updatePassword(Map<String, Object> params, HttpServletRequest request) {
+
         return null;
     }
 
