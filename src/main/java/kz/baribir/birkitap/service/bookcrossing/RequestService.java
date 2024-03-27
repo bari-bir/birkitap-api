@@ -1,7 +1,6 @@
 package kz.baribir.birkitap.service.bookcrossing;
 
-import kz.baribir.birkitap.model.dto.RequestDTO;
-import kz.baribir.birkitap.model.entity.Request;
+import kz.baribir.birkitap.model.common.dto.RequestDTO;
 
 import java.util.List;
 import java.util.Map;

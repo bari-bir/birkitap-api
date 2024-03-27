@@ -1,4 +1,4 @@
-package kz.baribir.birkitap.model.entity;
+package kz.baribir.birkitap.model.common.entity;
 
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.MongoId;

@@ -1,6 +1,6 @@
 package kz.baribir.birkitap.service;
 
-import kz.baribir.birkitap.model.entity.Genre;
+import kz.baribir.birkitap.model.common.entity.Genre;
 import kz.baribir.birkitap.repository.GenreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

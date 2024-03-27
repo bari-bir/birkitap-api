@@ -1,8 +1,8 @@
 package kz.baribir.birkitap.service;
 
 import jakarta.servlet.http.HttpServletRequest;
-import kz.baribir.birkitap.model.Response;
-import kz.baribir.birkitap.model.entity.User;
+import kz.baribir.birkitap.model.common.Response;
+import kz.baribir.birkitap.model.common.entity.User;
 import kz.baribir.birkitap.repository.UserRepository;
 import kz.baribir.birkitap.util.JWTUtils;
 import kz.baribir.birkitap.util.ParamUtil;
@@ -10,9 +10,9 @@ import kz.baribir.birkitap.util.PojUtil;
 import kz.baribir.birkitap.util.SecurityBase64Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
@@ -48,6 +48,7 @@ public class AuthServiceImpl implements AuthService {
         String token = jwtUtils.getToken(Map.of("uid", user.getId()));
         user.setLastLogin(new Date());
         user.setRefreshToken(SecurityBase64Util.md5(refresh_token));
+        userRepository.save(user);
 
         return new Response(0, "", Map.of(
                 "id", user.getId(),
@@ -145,6 +146,20 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public Response refreshToken(Map<String, Object> params, HttpServletRequest request) {
+        String refreshToken = ParamUtil.get_string(params, "refreshToken", false);
+        User user = userRepository.findOneByRefreshToken(refreshToken);
+        if (user != null) {
+            Calendar calendar=Calendar.getInstance();
+            calendar.setTime(user.getLastLogin());
+            calendar.add(Calendar.SECOND, tokenExpireSecond);
+            Date end_time=calendar.getTime();//refresh token end time
+            Date cur_time=new Date();
+            if(cur_time.compareTo(end_time)<0)
+            {
+                String token=jwtUtils.getToken(Map.of("uid",user.getId()));
+                return new Response(0, "OK", Map.of("uid",user.getId(),"token",token,"refresh_token",refreshToken,"token_expire_second",tokenExpireSecond));
+            }
+        }
         return null;
     }
 }

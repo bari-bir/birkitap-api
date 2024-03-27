@@ -1,8 +1,7 @@
 package kz.baribir.birkitap.manager.bookcrossing;
 
-import kz.baribir.birkitap.model.dto.AnnouncementDTO;
-import kz.baribir.birkitap.model.dto.RequestDTO;
-import kz.baribir.birkitap.model.entity.Request;
+import kz.baribir.birkitap.model.common.dto.RequestDTO;
+import kz.baribir.birkitap.model.common.entity.Request;
 import kz.baribir.birkitap.repository.bookcrossing.RequestRepository;
 import kz.baribir.birkitap.util.ParamUtil;
 import kz.baribir.birkitap.util.TimeUtil;

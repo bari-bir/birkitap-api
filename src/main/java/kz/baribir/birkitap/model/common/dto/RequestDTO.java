@@ -1,5 +1,6 @@
-package kz.baribir.birkitap.model.dto;
+package kz.baribir.birkitap.model.common.dto;
 
+import kz.baribir.birkitap.model.bookcrossing.vo.RequestVO;
 import lombok.Data;
 
 import java.util.Date;
@@ -15,6 +16,20 @@ public class RequestDTO {
     private String announcement;
     private String announcementCreator;
     private String status;
+
+    public RequestVO mapper() {
+        RequestVO requestVO = new RequestVO();
+        requestVO.setId(this.getId());
+        requestVO.setCreator(this.getCreator());
+        requestVO.setMessage(this.getMessage());
+        requestVO.setAttachments(this.getAttachments());
+        requestVO.setCreatetime(this.getCreatetime().getTime());
+        requestVO.setAnnouncementId(this.getAnnouncement());
+        requestVO.setAnnouncementCreator(this.getAnnouncementCreator());
+        requestVO.setStatus(this.status);
+
+        return requestVO;
+    }
 
     public void validate() {
         checkNullOrEmpty(creator, "creator");

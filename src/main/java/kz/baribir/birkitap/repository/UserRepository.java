@@ -1,6 +1,6 @@
 package kz.baribir.birkitap.repository;
 
-import kz.baribir.birkitap.model.entity.User;
+import kz.baribir.birkitap.model.common.entity.User;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;

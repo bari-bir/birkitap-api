@@ -1,9 +1,8 @@
 package kz.baribir.birkitap.service.bookcrossing;
 
 import kz.baribir.birkitap.manager.bookcrossing.AnnouncementManager;
-import kz.baribir.birkitap.model.dto.AnnouncementDTO;
-import kz.baribir.birkitap.model.entity.Announcement;
-import kz.baribir.birkitap.repository.bookcrossing.AnnouncementRepository;
+import kz.baribir.birkitap.model.common.dto.AnnouncementDTO;
+import kz.baribir.birkitap.repository.bookcrossing.RequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,11 +35,14 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         announcementManager.update(announcementDTO);
         return announcementDTO;
     }
+    @Autowired
+    private RequestRepository requestRepository;
 
     @Override
     public void delete(String id) {
 
         announcementManager.delete(id);
+        requestRepository.deleteByAnnouncementId(id);
     }
 
     @Override

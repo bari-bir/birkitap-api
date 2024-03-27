@@ -1,13 +1,10 @@
 package kz.baribir.birkitap.service.bookcrossing;
 
 import kz.baribir.birkitap.manager.bookcrossing.RequestManager;
-import kz.baribir.birkitap.model.dto.RequestDTO;
-import kz.baribir.birkitap.model.entity.Request;
-import kz.baribir.birkitap.util.Util;
+import kz.baribir.birkitap.model.common.dto.RequestDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 

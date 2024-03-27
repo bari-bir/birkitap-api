@@ -1,7 +1,7 @@
 package kz.baribir.birkitap.bean;
 
 import jakarta.annotation.Resource;
-import kz.baribir.birkitap.model.Page;
+import kz.baribir.birkitap.model.common.Page;
 import kz.baribir.birkitap.util.ContainerUtil;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;

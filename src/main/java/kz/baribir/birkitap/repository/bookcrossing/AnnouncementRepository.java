@@ -1,7 +1,7 @@
 package kz.baribir.birkitap.repository.bookcrossing;
 
 import kz.baribir.birkitap.bean.MongoRepositoryBase;
-import kz.baribir.birkitap.model.entity.Announcement;
+import kz.baribir.birkitap.model.common.entity.Announcement;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;

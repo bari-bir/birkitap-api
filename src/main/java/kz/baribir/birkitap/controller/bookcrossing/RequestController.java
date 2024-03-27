@@ -3,9 +3,13 @@ package kz.baribir.birkitap.controller.bookcrossing;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kz.baribir.birkitap.bean.TokenInfo;
-import kz.baribir.birkitap.model.Response;
-import kz.baribir.birkitap.model.dto.AnnouncementDTO;
-import kz.baribir.birkitap.model.dto.RequestDTO;
+import kz.baribir.birkitap.model.common.Response;
+import kz.baribir.birkitap.model.bookcrossing.vo.RequestVO;
+import kz.baribir.birkitap.model.common.UserVO;
+import kz.baribir.birkitap.model.common.dto.AnnouncementDTO;
+import kz.baribir.birkitap.model.common.dto.RequestDTO;
+import kz.baribir.birkitap.model.common.entity.User;
+import kz.baribir.birkitap.service.UserService;
 import kz.baribir.birkitap.service.bookcrossing.AnnouncementService;
 import kz.baribir.birkitap.service.bookcrossing.RequestService;
 import kz.baribir.birkitap.util.ExceptionUtil;
@@ -13,9 +17,7 @@ import kz.baribir.birkitap.util.JWTUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @RequestMapping("/bookcrossing/request")
 @RestController
@@ -101,7 +103,19 @@ public class RequestController {
     @ResponseBody
     public Response list(@RequestBody Map<String, Object> param, HttpServletRequest request) {
         try {
-            return Response.create_simple_success(requestService.list(param));
+            List<RequestVO> result = new ArrayList<>();
+            List<RequestDTO> requestDTOS = requestService.list(param);
+            for (var requestDTO: requestDTOS) {
+                var vo = requestDTO.mapper();
+                try {
+                    vo.setAnnouncement(announcementService.get(requestDTO.getAnnouncement()));
+                    result.add(vo);
+                } catch (Exception e) {
+
+                }
+            }
+
+            return Response.create_simple_success(result);
         } catch (Exception e) {
             return new Response(-1, e.getMessage(), ExceptionUtil.getStackTrace(e));
         }
@@ -118,11 +132,27 @@ public class RequestController {
             TokenInfo tokenInfo = jwtUtils.getTokenInfo(request);
             filter.put("creator", tokenInfo.getUuid());
             param.put("filter", filter);
-            return Response.create_simple_success(requestService.list(param));
+
+            List<RequestVO> result = new ArrayList<>();
+            List<RequestDTO> requestDTOS = requestService.list(param);
+            for (var requestDTO: requestDTOS) {
+                var vo = requestDTO.mapper();
+                try {
+                    vo.setAnnouncement(announcementService.get(requestDTO.getAnnouncement()));
+                    result.add(vo);
+                } catch (Exception e) {
+
+                }
+            }
+
+            return Response.create_simple_success(result);
         } catch (Exception e) {
             return new Response(-1, e.getMessage(), ExceptionUtil.getStackTrace(e));
         }
     }
+
+    @Autowired
+    private UserService userService;
 
     @RequestMapping("/me/list")
     @ResponseBody
@@ -135,7 +165,23 @@ public class RequestController {
             TokenInfo tokenInfo = jwtUtils.getTokenInfo(request);
             filter.put("announcementCreator", tokenInfo.getUuid());
             param.put("filter", filter);
-            return Response.create_simple_success(requestService.list(param));
+
+
+            List<RequestVO> result = new ArrayList<>();
+            List<RequestDTO> requestDTOS = requestService.list(param);
+            for (var requestDTO: requestDTOS) {
+                var vo = requestDTO.mapper();
+                try {
+                    vo.setAnnouncement(announcementService.get(requestDTO.getAnnouncement()));
+                    User user = userService.get(vo.getCreator());
+                    vo.setUserInfo(new UserVO().mapper(user));
+                    result.add(vo);
+                } catch (Exception e) {
+
+                }
+            }
+
+            return Response.create_simple_success(result);
         } catch (Exception e) {
             return new Response(-1, e.getMessage(), ExceptionUtil.getStackTrace(e));
         }

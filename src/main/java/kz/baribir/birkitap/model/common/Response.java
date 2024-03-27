@@ -1,4 +1,4 @@
-package kz.baribir.birkitap.model;
+package kz.baribir.birkitap.model.common;
 
 public class Response {
     private int result_code;

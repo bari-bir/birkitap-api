@@ -1,7 +1,7 @@
 package kz.baribir.birkitap.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
-import kz.baribir.birkitap.model.Response;
+import kz.baribir.birkitap.model.common.Response;
 import kz.baribir.birkitap.service.AuthService;
 import kz.baribir.birkitap.util.PojUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +34,16 @@ public class AuthController {
     public Response register(@RequestBody Map<String, Object> params, HttpServletRequest request) {
         try {
             return authService.register(params, request);
+        } catch (Exception e) {
+            return new Response(-1, e.getMessage(), PojUtil.getStackTrace(e));
+        }
+    }
+
+    @RequestMapping("/refresh/token")
+    @ResponseBody
+    public Response refreshToken(@RequestBody Map<String, Object> params, HttpServletRequest request) {
+        try {
+            return authService.refreshToken(params, request);
         } catch (Exception e) {
             return new Response(-1, e.getMessage(), PojUtil.getStackTrace(e));
         }

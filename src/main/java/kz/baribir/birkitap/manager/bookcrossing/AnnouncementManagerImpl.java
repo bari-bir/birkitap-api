@@ -1,7 +1,7 @@
 package kz.baribir.birkitap.manager.bookcrossing;
 
-import kz.baribir.birkitap.model.dto.AnnouncementDTO;
-import kz.baribir.birkitap.model.entity.Announcement;
+import kz.baribir.birkitap.model.common.dto.AnnouncementDTO;
+import kz.baribir.birkitap.model.common.entity.Announcement;
 import kz.baribir.birkitap.repository.bookcrossing.AnnouncementRepository;
 import kz.baribir.birkitap.util.ParamUtil;
 import kz.baribir.birkitap.util.TimeUtil;

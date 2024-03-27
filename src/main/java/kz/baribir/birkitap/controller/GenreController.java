@@ -1,9 +1,8 @@
 package kz.baribir.birkitap.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
-import kz.baribir.birkitap.model.Response;
-import kz.baribir.birkitap.model.entity.Genre;
-import kz.baribir.birkitap.model.entity.Request;
+import kz.baribir.birkitap.model.common.Response;
+import kz.baribir.birkitap.model.common.entity.Genre;
 import kz.baribir.birkitap.service.GenreService;
 import kz.baribir.birkitap.util.ExceptionUtil;
 import kz.baribir.birkitap.util.ParamUtil;

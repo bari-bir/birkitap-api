@@ -2,7 +2,7 @@ package kz.baribir.birkitap.controller.bookcrossing;
 
 import jakarta.servlet.http.HttpServletRequest;
 import kz.baribir.birkitap.bean.TokenInfo;
-import kz.baribir.birkitap.model.Response;
+import kz.baribir.birkitap.model.common.Response;
 import kz.baribir.birkitap.model.bookcrossing.entity.Favorite;
 import kz.baribir.birkitap.service.bookcrossing.FavoriteService;
 import kz.baribir.birkitap.util.ExceptionUtil;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Date;
 import java.util.Map;
 
 @RestController

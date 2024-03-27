@@ -1,16 +1,12 @@
-package kz.baribir.birkitap.model.entity;
+package kz.baribir.birkitap.model.bookcrossing.vo;
 
-import kz.baribir.birkitap.model.dto.AnnouncementDTO;
 import lombok.Data;
-import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import java.util.Date;
 import java.util.List;
 
 @Data
-public class Announcement  {
-
-    @MongoId
+public class AnnouncementVO {
     private String id;
     private String title;
     private String category;
@@ -19,8 +15,9 @@ public class Announcement  {
     private List<String> images;
     private String description;
     private String creator;
-    private Date createtime;
-    private Date updatetime;
+    private long createtime;
+    private long updatetime;
+    private boolean isFavorite;
+    private String favoriteId;
     private int deleted;
-
 }

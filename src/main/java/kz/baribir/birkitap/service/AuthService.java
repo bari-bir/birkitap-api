@@ -1,7 +1,7 @@
 package kz.baribir.birkitap.service;
 
 import jakarta.servlet.http.HttpServletRequest;
-import kz.baribir.birkitap.model.Response;
+import kz.baribir.birkitap.model.common.Response;
 
 import java.util.Map;
 

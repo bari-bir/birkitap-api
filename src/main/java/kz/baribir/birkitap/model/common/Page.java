@@ -1,4 +1,4 @@
-package kz.baribir.birkitap.model;
+package kz.baribir.birkitap.model.common;
 
 import lombok.Data;
 

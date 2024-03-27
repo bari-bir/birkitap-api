@@ -1,7 +1,7 @@
 package kz.baribir.birkitap.service;
 
 
-import kz.baribir.birkitap.model.entity.Genre;
+import kz.baribir.birkitap.model.common.entity.Genre;
 
 import java.util.List;
 
