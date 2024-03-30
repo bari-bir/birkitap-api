@@ -14,6 +14,7 @@ public class Book {
     private String author;
     private String imageLink;
     private List<String> genres;
+    private List<String> collections;
     private int year;
     private String description;
     private int page;

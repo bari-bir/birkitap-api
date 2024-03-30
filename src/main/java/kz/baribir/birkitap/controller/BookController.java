@@ -144,6 +144,30 @@ public class BookController {
         }
     }
 
+    @RequestMapping("/list/collections")
+    @ResponseBody
+    public Response listByCollection(@RequestBody Map<String, Object> params, HttpServletRequest request) {
+        try {
+            List<Book> books = bookService.list(params);
+            Map<String, List<Book>> result = new HashMap<>();
+
+            for (var book : books) {
+                for (var collection : book.getCollections()) {
+                    if (collection == null || collection.isEmpty()) {
+                        continue;
+                    }
+                    List<Book> curr = result.getOrDefault(collection, new ArrayList<>());
+                    curr.add(book);
+                    result.put(collection, curr);
+                }
+            }
+
+            return Response.create_simple_success(result);
+        } catch (Exception e) {
+            return new Response(-1, e.getMessage(), ExceptionUtil.getStackTrace(e));
+        }
+    }
+
     @Autowired
     private UploadDownloadUtil uploadDownloadUtil;
 
