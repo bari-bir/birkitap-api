@@ -35,6 +35,21 @@ public class GenreController {
         }
     }
 
+    @RequestMapping("/update")
+    @ResponseBody
+    public Response update(@RequestBody Map<String, Object> param, HttpServletRequest request) {
+        try {
+            String id = ParamUtil.get_string(param, "id", false);
+            String title = ParamUtil.get_string(param, "title", false);
+            Genre genre = genreService.get(id);
+            genre.setTitle(title);
+
+            return Response.create_simple_success(genreService.create(genre));
+        } catch (Exception e) {
+            return new Response(-1, e.getMessage(), ExceptionUtil.getStackTrace(e));
+        }
+    }
+
     @RequestMapping("/list")
     @ResponseBody
     public Response list(@RequestBody Map<String, Object> param, HttpServletRequest request) {

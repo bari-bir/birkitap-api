@@ -202,6 +202,7 @@ public class BookController {
             review.setBookId(bookId);
             review.setMessage(message);
             review.setRating(rating);
+            review.setBook(bookService.get(bookId));
             review.setCreatetime(new Date().getTime());
             review.setUserName(user.getFullName());
 
@@ -224,6 +225,31 @@ public class BookController {
             int visible = ParamUtil.get_int(params, "visible", true);
             int sort = ParamUtil.get_int(params, "sort", true);
             BookCategory bookCategory = new BookCategory();
+            bookCategory.setTitle(title);
+            bookCategory.setIcon(icon);
+            bookCategory.setUrl(url);
+            bookCategory.setVisible(visible);
+            bookCategory.setSort(sort);
+
+            bookCategoryService.create(bookCategory);
+
+            return Response.create_simple_success(bookCategory);
+        } catch (Exception e) {
+            return new Response(-1, e.getMessage(), ExceptionUtil.getStackTrace(e));
+        }
+    }
+
+    @RequestMapping("/category/update")
+    @ResponseBody
+    public Response categoryUpdate(@RequestBody Map<String, Object> params, HttpServletRequest request) {
+        try {
+            String id = ParamUtil.get_string(params, "id", false);
+            String title = ParamUtil.get_string(params, "title", false);
+            String icon = ParamUtil.get_string(params, "icon", true);
+            String url = ParamUtil.get_string(params, "url", true);
+            int visible = ParamUtil.get_int(params, "visible", true);
+            int sort = ParamUtil.get_int(params, "sort", true);
+            BookCategory bookCategory = bookCategoryService.get(id);
             bookCategory.setTitle(title);
             bookCategory.setIcon(icon);
             bookCategory.setUrl(url);

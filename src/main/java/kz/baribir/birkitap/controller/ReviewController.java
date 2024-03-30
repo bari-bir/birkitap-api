@@ -3,6 +3,7 @@ package kz.baribir.birkitap.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import kz.baribir.birkitap.model.common.Response;
 import kz.baribir.birkitap.model.common.entity.Review;
+import kz.baribir.birkitap.service.BookService;
 import kz.baribir.birkitap.service.ReviewService;
 import kz.baribir.birkitap.util.ExceptionUtil;
 import kz.baribir.birkitap.util.JWTUtils;
@@ -23,6 +24,9 @@ public class ReviewController {
     private ReviewService reviewService;
 
     @Autowired
+    private BookService bookService;
+
+    @Autowired
     private JWTUtils jwtUtils;
 
     @RequestMapping("/create")
@@ -35,6 +39,7 @@ public class ReviewController {
             String message = ParamUtil.get_string(params, "message", false);
             int rating = ParamUtil.get_int(params, "rating", false);
             Review review = new Review();
+            review.setBook(bookService.get(bookId));
             review.setTitle(title);
             review.setUserId(userId);
             review.setBookId(bookId);

@@ -13,6 +13,7 @@ public class Review {
     private String userId;
     private String userName;
     private String bookId;
+    private Book book;
     private String title;
     private String message;
     private int rating;

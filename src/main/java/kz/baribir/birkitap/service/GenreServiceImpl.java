@@ -20,6 +20,16 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
+    public Genre get(String id) {
+        Genre genre = genreRepository.findById(id, Genre.class);
+        if (genre == null) {
+            throw new RuntimeException("Not found");
+        }
+
+        return genre;
+    }
+
+    @Override
     public List<Genre> list() {
         return genreRepository.listAll();
     }
