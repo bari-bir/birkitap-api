@@ -5,6 +5,7 @@ import kz.baribir.birkitap.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -43,5 +44,25 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public List<Review> list(Map<String, Object> params) {
         return reviewRepository.list(params);
+    }
+
+    @Override
+    public List<Review> findByUserId(String userId) {
+        Map<String, Object> params = new HashMap<>();
+        Map<String, Object> filter = new HashMap<>();
+        filter.put("userId", userId);
+        params.put("filter", filter);
+
+        return list(params);
+    }
+
+    @Override
+    public List<Review> findByBookId(String bookId) {
+        Map<String, Object> params = new HashMap<>();
+        Map<String, Object> filter = new HashMap<>();
+        filter.put("bookId", bookId);
+        params.put("filter", filter);
+
+        return list(params);
     }
 }

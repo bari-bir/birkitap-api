@@ -11,4 +11,8 @@ public interface ReviewService {
     Review update(Review review);
     void delete(String id);
     List<Review> list(Map<String, Object> params);
+
+    List<Review> findByUserId(String userId);
+
+    List<Review> findByBookId(String bookId);
 }

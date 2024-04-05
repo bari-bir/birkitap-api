@@ -152,6 +152,11 @@ public class BookController {
             Map<String, List<Book>> result = new HashMap<>();
 
             for (var book : books) {
+                var coolections = book.getCollections();
+                if (coolections == null) {
+                    continue;
+                }
+
                 for (var collection : book.getCollections()) {
                     if (collection == null || collection.isEmpty()) {
                         continue;

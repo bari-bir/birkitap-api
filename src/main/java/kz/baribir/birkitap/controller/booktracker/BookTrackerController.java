@@ -40,12 +40,15 @@ public class BookTrackerController {
             String title = ParamUtil.get_string(params, "title", false);
             String bookId = ParamUtil.get_string(params, "bookId", true);
             String image = ParamUtil.get_string(params, "iamge", true);
-
-            Book book = new Book();
+            int page = ParamUtil.get_int(params, "page", true);
+            Book book;
             try  {
                 book = bookService.get(bookId);
             } catch (Exception e) {
-
+                book = new Book();
+                book.setTitle(title);
+                book.setImageLink(image);
+                book.setPage(page);
             }
 
             BookTracker bookTracker = new BookTracker();
@@ -55,8 +58,10 @@ public class BookTrackerController {
             bookTracker.setStatus("selected");
             bookTracker.setImage(image);
             bookTracker.setBook(book);
+            bookTracker.setPage(page);
             TokenInfo tokenInfo = jwtUtils.getTokenInfo(request);
             bookTracker.setUserId(tokenInfo.getUuid());
+            bookService.create(book);
 
             return Response.create_simple_success(bookTrackerService.create(bookTracker));
         } catch (Exception e) {

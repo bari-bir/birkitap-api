@@ -9,8 +9,8 @@ import java.util.List;
 
 public interface RecommendService {
 
-    List<Book> recommendBooks(String userId);
-    List<Review> recommendReviews(String userId);
-    List<Post> recommendPosts(String userId);
-    List<User> recommendUsers(String userId);
+    List<Book> recommendBooks(String userId, int start, int length);
+    List<Review> recommendReviews(String userId, int start, int length);
+    List<Post> recommendPosts(String userId, int start, int length);
+    List<User> recommendUsers(String userId, int start, int length);
 }

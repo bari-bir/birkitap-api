@@ -13,4 +13,6 @@ public interface BookTrackerService {
     void delete(String id);
     List<BookTracker> list(Map<String, Object> params);
 
+    List<BookTracker> list(String userId);
+
 }

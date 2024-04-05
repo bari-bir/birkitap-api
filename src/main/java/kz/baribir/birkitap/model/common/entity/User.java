@@ -21,5 +21,6 @@ public class User {
     private Date createtime;
     private String refreshToken;
     private Date lastLogin;
+    private String avatar;
 
 }

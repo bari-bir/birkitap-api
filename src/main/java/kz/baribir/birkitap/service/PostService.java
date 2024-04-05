@@ -12,5 +12,7 @@ public interface PostService {
     Post update(Post post);
     void delete(String id);
     List<Post> list(Map<String, Object> params);
+
+    List<Post> list(String userId);
     long count(Map<String, Object> params);
 }

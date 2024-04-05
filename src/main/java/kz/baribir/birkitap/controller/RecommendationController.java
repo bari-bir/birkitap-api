@@ -10,6 +10,7 @@ import kz.baribir.birkitap.model.common.entity.User;
 import kz.baribir.birkitap.service.RecommendService;
 import kz.baribir.birkitap.util.ExceptionUtil;
 import kz.baribir.birkitap.util.JWTUtils;
+import kz.baribir.birkitap.util.ParamUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,8 +35,9 @@ public class RecommendationController {
     public Response books(@RequestBody Map<String, Object> params, HttpServletRequest request) {
         try {
             TokenInfo tokenInfo = jwtUtils.getTokenInfo(request);
-
-            List<Book> books = recommendService.recommendBooks(tokenInfo.getUuid());
+            int start = ParamUtil.get_int(params, "start", true);
+            int length = ParamUtil.get_int(params, "length", true);
+            List<Book> books = recommendService.recommendBooks(tokenInfo.getUuid(), start, length);
 
             return Response.create_simple_success(books);
         } catch (Exception e) {
@@ -48,8 +50,9 @@ public class RecommendationController {
     public Response reviews(@RequestBody Map<String, Object> params, HttpServletRequest request) {
         try {
             TokenInfo tokenInfo = jwtUtils.getTokenInfo(request);
-
-            List<Review> reviews = recommendService.recommendReviews(tokenInfo.getUuid());
+            int start = ParamUtil.get_int(params, "start", true);
+            int length = ParamUtil.get_int(params, "length", true);
+            List<Review> reviews = recommendService.recommendReviews(tokenInfo.getUuid(), start, length);
 
             return Response.create_simple_success(reviews);
         } catch (Exception e) {
@@ -62,8 +65,9 @@ public class RecommendationController {
     public Response posts(@RequestBody Map<String, Object> params, HttpServletRequest request) {
         try {
             TokenInfo tokenInfo = jwtUtils.getTokenInfo(request);
-
-            List<Post> posts = recommendService.recommendPosts(tokenInfo.getUuid());
+            int start = ParamUtil.get_int(params, "start", true);
+            int length = ParamUtil.get_int(params, "length", true);
+            List<Post> posts = recommendService.recommendPosts(tokenInfo.getUuid(), start, length);
 
             return Response.create_simple_success(posts);
         } catch (Exception e) {
@@ -76,8 +80,9 @@ public class RecommendationController {
     public Response users(@RequestBody Map<String, Object> params, HttpServletRequest request) {
         try {
             TokenInfo tokenInfo = jwtUtils.getTokenInfo(request);
-
-            List<User> users = recommendService.recommendUsers(tokenInfo.getUuid());
+            int start = ParamUtil.get_int(params, "start", true);
+            int length = ParamUtil.get_int(params, "length", true);
+            List<User> users = recommendService.recommendUsers(tokenInfo.getUuid(), start, length);
 
             return Response.create_simple_success(users);
         } catch (Exception e) {

@@ -22,6 +22,7 @@ public class BookTrackerRepository extends MongoRepositoryBase<BookTracker> {
         Map<String, String> param2column = new HashMap<>();
         param2column.put("id", "id");
         param2column.put("status", "status");
+        param2column.put("userId", "userId");
         param2column.put("createtime", "createtime");
         param2column.put("updatetime", "updatetime");
         param2column.put("bookId", "book.id");

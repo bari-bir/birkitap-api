@@ -23,38 +23,36 @@ public class JWTInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        Map<String,Object> result=new HashMap<>();
-        int status_code=401;
+        Map<String, Object> result = new HashMap<>();
+        int status_code = 401;
         try {
             String authorization = request.getHeader("Authorization");
             String[] authes = authorization.split(" ");
-            String token_name=authes[0];
+            String token_name = authes[0];
             String token = authes[1];
-            Map<String,String> map=null;
+            Map<String, String> map = null;
 
-                DecodedJWT decodedJWT = jwtUtils.verify(token);
-                String payload =new String( SecurityBase64Util.base64_decode(decodedJWT.getPayload()), StandardCharsets.UTF_8);
-                map=new ObjectMapper().readValue(payload,Map.class);
+            DecodedJWT decodedJWT = jwtUtils.verify(token);
+            String payload = new String(SecurityBase64Util.base64_decode(decodedJWT.getPayload()), StandardCharsets.UTF_8);
+            map = new ObjectMapper().readValue(payload, Map.class);
 
             request.setAttribute("jwt_payload", map);
-            String user_type=map.get("user_type");
-            String request_url= request.getRequestURI();
-            if((!"admin".equals(user_type)) && request_url.startsWith("/admin"))
-            {
-                status_code=403;
+            String user_type = map.get("user_type");
+            String request_url = request.getRequestURI();
+            if ((!"admin".equals(user_type)) && request_url.startsWith("/admin")) {
+                status_code = 403;
                 throw new Exception("普通用户无权访问后台！");
             }
 
             return true;
 
 
-        }catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
-            result.put("result_code",status_code);
-            result.put("result_msg","Auth Error!");
+            result.put("result_code", status_code);
+            result.put("result_msg", "Auth Error!");
             response.setStatus(status_code);
-            String json_string=   new ObjectMapper().writeValueAsString(result);
+            String json_string = new ObjectMapper().writeValueAsString(result);
             response.setContentType("application/json;charset=UTF-8");
             response.getWriter().println(json_string);
             response.getWriter().flush();

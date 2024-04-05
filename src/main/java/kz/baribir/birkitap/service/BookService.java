@@ -1,5 +1,6 @@
 package kz.baribir.birkitap.service;
 
+import kz.baribir.birkitap.model.booktracker.entity.BookTracker;
 import kz.baribir.birkitap.model.common.entity.Book;
 
 import java.util.List;

@@ -5,6 +5,7 @@ import kz.baribir.birkitap.repository.booktracker.BookTrackerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -45,5 +46,15 @@ public class BookTrackerServiceImpl implements BookTrackerService {
     public List<BookTracker> list(Map<String, Object> params) {
 
         return bookTrackerRepository.list(params);
+    }
+
+    @Override
+    public List<BookTracker> list(String userId) {
+        Map<String, Object> params = new HashMap<>();
+        Map<String, Object> filter = new HashMap<>();
+        filter.put("userId", userId);
+        params.put("filter", filter);
+
+        return list(params);
     }
 }

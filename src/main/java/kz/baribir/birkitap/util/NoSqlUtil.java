@@ -12,6 +12,19 @@ public class NoSqlUtil {
 
     public static Query queryByParams(Map<String, Object> params, Map<String, String> param2column, boolean withLength) {
         Query query = new Query();
+        for (var entry: params.entrySet()) {
+            String key = entry.getKey();
+            switch (key) {
+                case "filter", "sort", "time", "start", "length":
+                    break;
+                default:
+                    Object value = entry.getValue();
+                    if (param2column.get(key) != null && value != null && !("".equals(value.toString().trim()))) {
+                        query.addCriteria(Criteria.where(param2column.get(key)).regex(value.toString()));
+                    }
+            }
+        }
+
         Map<String, Object> filter = (Map<String, Object>) params.get("filter");
         if (filter != null) {
             for (var entrySet : filter.entrySet()) {
