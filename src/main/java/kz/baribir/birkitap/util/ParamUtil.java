@@ -3,7 +3,6 @@ package kz.baribir.birkitap.util;
 
 import jakarta.servlet.http.HttpServletRequest;
 import kz.baribir.birkitap.bean.TokenInfo;
-import kz.baribir.birkitap.exception.BadRequestException;
 
 import java.util.Map;
 
@@ -11,7 +10,7 @@ public class ParamUtil {
     public static String get_string(Map<String, Object> params, String key, boolean allow_null, boolean needTrim) {
         Object val = params.get(key);
         if (!allow_null && val == null)
-            throw new BadRequestException(" Request param " + key + " can't be null!");
+            throw new RuntimeException(" Request param " + key + " can't be null!");
         if (val == null)
             return null;
         if (needTrim)
@@ -22,7 +21,7 @@ public class ParamUtil {
     public static String get_string(Map<String, Object> params, String key, boolean allow_null) {
         Object val = params.get(key);
         if (!allow_null && val == null)
-            throw new BadRequestException(" Request param " + key + " can't be null!");
+            throw new RuntimeException(" Request param " + key + " can't be null!");
         if (val == null)
             return null;
         return val.toString();
@@ -31,13 +30,13 @@ public class ParamUtil {
     public static float get_float(Map<String, Object> params, String key, boolean allow_null, float default_value){
         Object val = params.get(key);
         if (!allow_null && val == null)
-            throw new BadRequestException(" Request param " + key + " can't be null!");
+            throw new RuntimeException(" Request param " + key + " can't be null!");
         if(val == null)
             return default_value;
         try{
             return Float.parseFloat(val.toString().trim());
         }catch (Exception e){
-            throw new BadRequestException("number format is not correct");
+            throw new RuntimeException("number format is not correct");
         }
 
     }
@@ -45,13 +44,13 @@ public class ParamUtil {
     public static double get_double(Map<String, Object> params, String key, boolean allow_null, double default_value){
         Object val = params.get(key);
         if (!allow_null && val == null)
-            throw new BadRequestException(" Request param " + key + " can't be null!");
+            throw new RuntimeException(" Request param " + key + " can't be null!");
         if(val == null)
             return default_value;
         try{
             return Double.parseDouble(val.toString().trim());
         }catch (Exception e){
-            throw new BadRequestException("number format is not correct");
+            throw new RuntimeException("number format is not correct");
         }
 
     }
@@ -59,13 +58,13 @@ public class ParamUtil {
     public static long get_long(Map<String, Object> params, String key, boolean allow_null, long default_value){
         Object val = params.get(key);
         if (!allow_null && val == null)
-            throw new BadRequestException(" Request param " + key + " can't be null!");
+            throw new RuntimeException(" Request param " + key + " can't be null!");
         if(val == null)
             return default_value;
         try{
             return Long.parseLong(val.toString().trim());
         }catch (Exception e){
-            throw new BadRequestException("number format is not correct");
+            throw new RuntimeException("number format is not correct");
         }
 
     }
@@ -73,7 +72,7 @@ public class ParamUtil {
     public static int get_int(Map<String, Object> params, String key, boolean allow_null){
         Object val = params.get(key);
         if (!allow_null && val == null)
-            throw new BadRequestException("Request param " + key + " can't be null!");
+            throw new RuntimeException("Request param " + key + " can't be null!");
         if(val == null) return 0;
         return Integer.parseInt(val.toString());
     }

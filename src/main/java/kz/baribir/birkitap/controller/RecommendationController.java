@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,6 +38,10 @@ public class RecommendationController {
             TokenInfo tokenInfo = jwtUtils.getTokenInfo(request);
             int start = ParamUtil.get_int(params, "start", true);
             int length = ParamUtil.get_int(params, "length", true);
+            params.put("filter", params.getOrDefault("filter", new HashMap<>()));
+            Map<String, Object> filter = (Map<String, Object>) params.get("filter");
+            filter.put("visible", 1);
+            params.put("filter", filter);
             List<Book> books = recommendService.recommendBooks(tokenInfo.getUuid(), start, length);
 
             return Response.create_simple_success(books);

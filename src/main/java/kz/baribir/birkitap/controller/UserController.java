@@ -46,6 +46,9 @@ public class UserController {
     public Response profile(@RequestBody Map<String, Object> params, HttpServletRequest request) {
         try {
             TokenInfo tokenInfo = jwtUtils.getTokenInfo(request);
+
+            User user = userService.get(tokenInfo.getUuid());
+
             var followers = userService.myFollowers(tokenInfo.getUuid());
             var followings = userService.myFollowings(tokenInfo.getUuid());
             var reviews = reviewService.findByUserId(tokenInfo.getUuid());
@@ -77,6 +80,7 @@ public class UserController {
             profile.setReviewsCount(reviews.size());
             profile.setReadBooksCount(readBookCount);
             profile.setBooks(bookByStatus);
+            profile.setUserVO(new UserVO().mapper(user));
 
             return Response.create_simple_success(profile);
         } catch (Exception e) {
@@ -107,7 +111,6 @@ public class UserController {
             if (!"male".equals(gender) && !"female".equals(gender)) {
                 throw new RuntimeException("gender should male or female");
             }
-
 
             user.setFullName(fullName);
             user.setBirth(new Date(birth));
@@ -220,6 +223,24 @@ public class UserController {
             List<User> followers = userService.findByIds(followersIds);
 
             return Response.create_simple_success(followers);
+        } catch (Exception e) {
+            return new Response(-2, e.getMessage(), ExceptionUtil.getStackTrace(e));
+        }
+    }
+
+    @RequestMapping("/avatar/list")
+    @ResponseBody
+    public Response avatarList(@RequestBody Map<String, Object> params, HttpServletRequest request) {
+        try {
+            List<String> avatars = List.of(
+                    "public/avatar/logo1.png",
+                    "public/avatar/logo2.png",
+                    "public/avatar/logo3.png",
+                    "public/avatar/logo4.png",
+                    "public/avatar/logo5.png"
+            );
+
+            return Response.create_simple_success(avatars);
         } catch (Exception e) {
             return new Response(-2, e.getMessage(), ExceptionUtil.getStackTrace(e));
         }

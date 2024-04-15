@@ -15,6 +15,7 @@ public class UserVO {
     private String fullName;
     private long birth;
     private String gender;
+    private String avatar;
     private List<Genre> genres;
     private long createtime;
     private String refreshToken;
@@ -30,6 +31,7 @@ public class UserVO {
         createtime = user.getCreatetime().getTime();
         refreshToken = user.getRefreshToken();
         lastLogin = user.getLastLogin().getTime();
+        avatar = user.getAvatar();
 
         return this;
     }

@@ -12,6 +12,7 @@ public class Review {
     private String id;
     private String userId;
     private String userName;
+    private String avatar;
     private String bookId;
     private Book book;
     private String title;

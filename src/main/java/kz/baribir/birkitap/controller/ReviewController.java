@@ -1,10 +1,13 @@
 package kz.baribir.birkitap.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import kz.baribir.birkitap.bean.TokenInfo;
 import kz.baribir.birkitap.model.common.Response;
 import kz.baribir.birkitap.model.common.entity.Review;
+import kz.baribir.birkitap.model.common.entity.User;
 import kz.baribir.birkitap.service.BookService;
 import kz.baribir.birkitap.service.ReviewService;
+import kz.baribir.birkitap.service.UserService;
 import kz.baribir.birkitap.util.ExceptionUtil;
 import kz.baribir.birkitap.util.JWTUtils;
 import kz.baribir.birkitap.util.ParamUtil;
@@ -27,19 +30,28 @@ public class ReviewController {
     private BookService bookService;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private JWTUtils jwtUtils;
 
     @RequestMapping("/create")
     @ResponseBody
     public Response create(@RequestBody Map<String, Object> params, HttpServletRequest request) {
         try {
+            TokenInfo tokenInfo = jwtUtils.getTokenInfo(request);
             String title = ParamUtil.get_string(params, "title", false);
-            String userId = jwtUtils.getTokenInfo(request).getUuid();
+            String userId = tokenInfo.getUuid();
             String bookId = ParamUtil.get_string(params, "bookId", false);
             String message = ParamUtil.get_string(params, "message", false);
             int rating = ParamUtil.get_int(params, "rating", false);
+
             Review review = new Review();
+
+            User user = userService.get(tokenInfo.getUuid());
+
             review.setBook(bookService.get(bookId));
+            review.setAvatar(user.getAvatar());
             review.setTitle(title);
             review.setUserId(userId);
             review.setBookId(bookId);

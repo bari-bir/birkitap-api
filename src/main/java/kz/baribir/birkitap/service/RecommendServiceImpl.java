@@ -11,10 +11,7 @@ import kz.baribir.birkitap.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class RecommendServiceImpl implements RecommendService {
@@ -65,12 +62,22 @@ public class RecommendServiceImpl implements RecommendService {
         return result;
     }
 
+    @Autowired
+    private FollowersService followersService;
+
     @Override
     public List<User> recommendUsers(String userId, int start, int length) {
         List<User> users = userRepository.list(getParams(start, length));
+
+        var followers = followersService.findByFromUser(userId);
+        Set<String> followersSet = new HashSet<>(followers);
+
         List<User> result = new ArrayList<>();
         for (int i = 0; i < users.size(); i++) {
             if (!users.get(i).getId().equals(userId)) {
+                if (followersSet.contains(users.get(i).getId())) {
+                    users.get(i).setFollowed(true);
+                }
                 result.add(users.get(i));
             }
         }

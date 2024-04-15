@@ -21,7 +21,9 @@ public class BookRepository extends MongoRepositoryBase<Book> {
         param2column.put("author", "author");
         param2column.put("year", "year");
         param2column.put("genre", "genres");
+        param2column.put("visible", "visible");
         Query query = NoSqlUtil.queryByParams(param, param2column, true);
+
         Map<String, Object> filter = (Map<String, Object>) param.get("filter");
         if (filter == null)
             filter = new HashMap<>();

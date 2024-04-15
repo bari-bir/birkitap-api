@@ -50,6 +50,9 @@ public class FollowersServiceImpl implements FollowersService {
     @Override
     public Followers get(String toUserId, String fromUserId) {
         Followers followers = followersRepository.findByTwoFollows(toUserId, fromUserId);
+        if (followers == null) {
+            throw new RuntimeException("No relationship with two user");
+        }
 
         return followers;
     }

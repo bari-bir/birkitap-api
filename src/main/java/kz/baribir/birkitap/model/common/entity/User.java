@@ -22,5 +22,5 @@ public class User {
     private String refreshToken;
     private Date lastLogin;
     private String avatar;
-
+    private boolean isFollowed = false;
 }

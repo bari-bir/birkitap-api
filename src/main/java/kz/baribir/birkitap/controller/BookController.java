@@ -117,6 +117,10 @@ public class BookController {
     @ResponseBody
     public Response list(@RequestBody Map<String, Object> params, HttpServletRequest request) {
         try {
+            params.put("filter", params.getOrDefault("filter", new HashMap<>()));
+            Map<String, Object> filter = (Map<String, Object>) params.get("filter");
+            filter.put("visible", 1);
+            params.put("filter", filter);
             return Response.create_simple_success(bookService.list(params));
         } catch (Exception e) {
             return new Response(-1, e.getMessage(), ExceptionUtil.getStackTrace(e));
@@ -131,6 +135,9 @@ public class BookController {
             Map<String, List<Book>> result = new HashMap<>();
 
             for (var book : books) {
+                if (book.getGenres() == null || book.getGenres().isEmpty()) {
+                    continue;
+                }
                 for (var genre : book.getGenres()) {
                     List<Book> curr = result.getOrDefault(genre, new ArrayList<>());
                     curr.add(book);
@@ -231,6 +238,7 @@ public class BookController {
             review.setBookId(bookId);
             review.setMessage(message);
             review.setRating(rating);
+            review.setAvatar(user.getAvatar());
             review.setBook(bookService.get(bookId));
             review.setCreatetime(new Date().getTime());
             review.setUserName(user.getFullName());

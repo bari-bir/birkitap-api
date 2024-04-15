@@ -16,9 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/booktracker")
@@ -39,23 +37,27 @@ public class BookTrackerController {
         try {
             String title = ParamUtil.get_string(params, "title", false);
             String bookId = ParamUtil.get_string(params, "bookId", true);
-            String image = ParamUtil.get_string(params, "iamge", true);
+            String image = ParamUtil.get_string(params, "image", true);
+            String status = ParamUtil.get_string(params, "status", false);
+            String author = ParamUtil.get_string(params, "author", true);
             int page = ParamUtil.get_int(params, "page", true);
             Book book;
             try  {
                 book = bookService.get(bookId);
             } catch (Exception e) {
                 book = new Book();
+                book.setAuthor(author);
                 book.setTitle(title);
                 book.setImageLink(image);
                 book.setPage(page);
+                book.setVisible(0);
             }
 
             BookTracker bookTracker = new BookTracker();
             bookTracker.setTitle(title);
-            bookTracker.setCreatetime(new Date());
-            bookTracker.setUpdatetime(new Date());
-            bookTracker.setStatus("selected");
+            bookTracker.setCreatetime(new Date().getTime());
+            bookTracker.setUpdatetime(new Date().getTime());
+            bookTracker.setStatus(status);
             bookTracker.setImage(image);
             bookTracker.setBook(book);
             bookTracker.setPage(page);
@@ -90,16 +92,17 @@ public class BookTrackerController {
         try {
             String id = ParamUtil.get_string(params, "id", false);
             String bookId = ParamUtil.get_string(params, "bookId", true);
-            String image = ParamUtil.get_string(params, "iamge", true);
-
+            String image = ParamUtil.get_string(params, "image", true);
             BookTracker bookTracker = bookTrackerService.get(id);
             //TODO chcek own booktracker
             String title = ParamUtil.get_string(params, "title", false);
             String status = ParamUtil.get_string(params, "status", false);
             bookTracker.setTitle(title);
             bookTracker.setStatus(status);
-            bookTracker.setUpdatetime(new Date());
+            bookTracker.setUpdatetime(new Date().getTime());
             bookTracker.setImage(image);
+
+            bookTrackerService.update(bookTracker);
 
             return Response.create_simple_success((bookTracker));
         } catch (Exception e) {
@@ -135,8 +138,18 @@ public class BookTrackerController {
             }
             filter.put("userId", tokenInfo.getUuid());
             params.put("filter", filter);
+            var books = bookTrackerService.list(params);
+            Map<String, List<BookTracker>> bookByStatus = new HashMap<>();
+            for (var book: books) {
+                if (book.getStatus() == null || book.getStatus().isEmpty()) {
+                    continue;
+                }
+                List<BookTracker> bookTrackers = bookByStatus.getOrDefault(book.getStatus(), new ArrayList<>());
+                bookTrackers.add(book);
+                bookByStatus.put(book.getStatus(), bookTrackers);
+            }
 
-            return Response.create_simple_success(bookTrackerService.list(params));
+            return Response.create_simple_success(bookByStatus);
         } catch (Exception e) {
             return new Response(-1, e.getMessage(), ExceptionUtil.getStackTrace(e));
         }

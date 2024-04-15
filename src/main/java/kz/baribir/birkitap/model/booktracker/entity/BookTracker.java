@@ -16,8 +16,8 @@ public class BookTracker {
     private Book book;
     private String image;
     private String status;
-    private Date createtime;
-    private Date updatetime;
+    private long createtime;
+    private long updatetime;
     private long time;
     private int progressPage;
     private int page;

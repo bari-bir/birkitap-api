@@ -21,4 +21,5 @@ public class Book {
     private int year;
     private String description;
     private int page;
+    private int visible = 1;
 }

@@ -19,4 +19,5 @@ public class Profile {
     private List<Review> reviews;
     private Map<String, Object> books;
     private List<Post> posts;
+    private UserVO userVO;
 }

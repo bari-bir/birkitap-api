@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import kz.baribir.birkitap.bean.TokenInfo;
 import kz.baribir.birkitap.model.common.Response;
 import kz.baribir.birkitap.model.booktracker.entity.Note;
+import kz.baribir.birkitap.service.BookService;
 import kz.baribir.birkitap.service.booktracker.NoteService;
 import kz.baribir.birkitap.util.ExceptionUtil;
 import kz.baribir.birkitap.util.JWTUtils;
@@ -28,6 +29,9 @@ public class NoteController {
     @Autowired
     private NoteService noteService;
 
+    @Autowired
+    private BookService bookService;
+
     @RequestMapping("/create")
     @ResponseBody
     public Response create(@RequestBody Map<String, Object> params, HttpServletRequest request) {
@@ -38,6 +42,8 @@ public class NoteController {
             String bookId = ParamUtil.get_string(params, "bookId", false);
 
             Note note = new Note();
+
+            note.setBook(bookService.get(bookId));
             note.setUserId(tokenInfo.getUuid());
             note.setTitle(title);
             note.setBookId(bookId);
@@ -88,6 +94,7 @@ public class NoteController {
             }
 
             note.setTitle(title);
+            note.setBook(bookService.get(bookId));
             note.setBookId(bookId);
             note.setContent(content);
             note.setCreatetime(new Date());

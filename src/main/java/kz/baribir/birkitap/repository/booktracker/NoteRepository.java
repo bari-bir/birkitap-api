@@ -21,6 +21,7 @@ public class NoteRepository extends MongoRepositoryBase<Note> {
         Map<String, String> param2column = new HashMap<>();
         param2column.put("id", "id");
         param2column.put("status", "status");
+        param2column.put("userId", "userId");
         param2column.put("createtime", "createtime");
         param2column.put("updatetime", "updatetime");
         Query query = NoSqlUtil.queryByParams(param, param2column, true);
